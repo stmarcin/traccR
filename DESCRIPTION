@@ -15,7 +15,8 @@ Imports:
     magrittr
 Suggests: 
     spelling,
-    testthat
+    testthat,
+    glue
 Encoding: UTF-8
 Language: en-US
 LazyData: true
