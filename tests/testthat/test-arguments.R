@@ -45,16 +45,19 @@ test_that("test if proximity function has all arguments", {
                     'destinations' has to be a data.frame object")
   expect_error (g <- proximity (OD, or = "v1", ttime = "v2", destinations = destinations), msg)
 
-
   OD <- data.table::data.table(v1 = c("a - b", "b - a"), v2 = c(1, 2))
   des_test <- data.table::data.table(des = c("a", "c"))
   msg <- glue::glue("If 'destinations' is specified, 'destinations_id' is required.
                     Please provide 'destinations_id' as id column name")
   expect_error (g <- proximity (OD, or = "v1", ttime = "v2", destinations = des_test), msg)
 
-  # OD <- data.table::data.table(or = c("e", "f", "g"), dest = c("a", "b", "c"), v2 = c(1, 2, 3))
-  # msg <- glue::glue("'or_dest' can be only 'TRUE' or 'FALSE'. Please insert a correct argument.")
-  # expect_error (g <- proximity (OD, or = "or", dest = "dest", ttime = ttime = "v2", or_dest = "a"), msg)
+  OD <- data.table::data.table(or = c("e", "f", "g"), dest = c("a", "b", "c"), v2 = c(1, 2, 3))
+  msg <- glue::glue("'or_dest' has to be 'TRUE' for trips with the same id for origin and destination to be excluded
+    or 'FALSE' otherwise.")
+  expect_error (g <- proximity (OD, or = "or", dest = "dest", ttime = "v2", or_dest = "a"), msg)
+  
+  msg <- "'zero' has to be 'TRUE' for trips of to be excluded or 'FALSE' otherwise."
+  expect_error (g <- proximity (OD, or = "or", dest = "dest", ttime = "v2", zero = "a"), msg)
 
 })
 
@@ -78,9 +81,6 @@ test_that("test arguments of split_trip_id function", {
   msg <- paste0("Not all records contain selected pattern - '", pattern, "' - in '", or, "' column")
   expect_error (g <- split_trip_id (OD, or = "v1"), msg)
 
-
-
-
 })
 
 test_that("no empty OD files", {
@@ -98,15 +98,13 @@ test_that("no empty join with destinations", {
   des_test <- data.table::data.table(des = c("x", "y"), foo = 1)
   msg <- glue::glue("There is no matching records between 'OD' and 'destinations'.
                       Check if 'destinations_id' is defined correctly")
-  expect_error (g <- proximity(OD = OD, or = "or", ttime = "v2",
-                               dest = "dest", destinations = des_test, destinations_id = "des"),
-                msg)
+  expect_error (g <- proximity(OD = OD, or = "or", ttime = "v2", dest = "dest",
+    destinations = des_test, destinations_id = "des"), msg)
 
   des_test <- data.table::data.table(des = c("a", "b"), foo = 1)
-  od_copy <- proximity(OD = OD, or = "or", ttime = "v2",
-                       dest = "dest", destinations = des_test, destinations_id = "des")
+  od_copy <- proximity(OD = OD, or = "or", ttime = "v2", dest = "dest", 
+    destinations = des_test, destinations_id = "des")
   expect_equal(nrow(od_copy), 2)
-
 
 })
 

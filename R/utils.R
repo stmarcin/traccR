@@ -61,6 +61,14 @@ checks_base_args <- function(OD, or, ttime, dest, pattern, or_dest, zero)
 
   if(!dest == "" & sum(grepl(pattern = pattern, OD[[or]])) == nrow(OD) )
     stop("Not all records contain selected pattern - '", pattern, "' - in '", or, "' column")
+  
+  if(!typeof(or_dest) == "logical")
+    stop(glue::glue("'or_dest' has to be 'TRUE' for trips with the same id for origin and destination to be excluded
+      or 'FALSE' otherwise."))
+  
+  if(!typeof(zero) == "logical")
+    stop("'zero' has to be 'TRUE' for trips of to be excluded or 'FALSE' otherwise.")
+  
 }
 
 
