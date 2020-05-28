@@ -6,10 +6,6 @@ test_that("test if proximity function has all arguments", {
   msg <- paste0("'", OD, "' is not a valid object. '", OD, "' has to be a data.frame object")
   expect_error (g <- proximity (OD, or = "v1", ttime = "v2"), msg)
 
-<<<<<<< HEAD
-=======
-
->>>>>>> bf28da29a3b74552256d0c6bda523c9b06bbeee7
   OD <- data.table::data.table(v1 = c("a", "b"), v2 = c(1, 2))
 
   or <- "a"
@@ -56,13 +52,10 @@ test_that("test if proximity function has all arguments", {
                     Please provide 'destinations_id' as id column name")
   expect_error (g <- proximity (OD, or = "v1", ttime = "v2", destinations = des_test), msg)
 
-<<<<<<< HEAD
   # OD <- data.table::data.table(or = c("e", "f", "g"), dest = c("a", "b", "c"), v2 = c(1, 2, 3))
   # msg <- glue::glue("'or_dest' can be only 'TRUE' or 'FALSE'. Please insert a correct argument.")
   # expect_error (g <- proximity (OD, or = "or", dest = "dest", ttime = ttime = "v2", or_dest = "a"), msg)
 
-=======
->>>>>>> bf28da29a3b74552256d0c6bda523c9b06bbeee7
 })
 
 test_that("test arguments of split_trip_id function", {

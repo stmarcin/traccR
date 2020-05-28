@@ -29,11 +29,9 @@ split_trip_id <- function(OD, or, pattern = " - ")
   if(!sum(grepl(pattern = pattern, OD[[or]])) == nrow(OD) )
     stop("Not all records contain selected pattern - '", pattern, "' - in '", or, "' column")
 
-
   OD[, c("or_id", "dest_id") := data.table::tstrsplit(get(or), pattern, fixed = TRUE)]
 
   if(or != "or_id")  OD[, c(or) := NULL]
-
 
   return(OD)
 
