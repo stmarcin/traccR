@@ -29,24 +29,12 @@ split_trip_id <- function(OD, or, pattern = " - ")
   if(!sum(grepl(pattern = pattern, OD[[or]])) == nrow(OD) )
     stop("Not all records contain selected pattern - '", pattern, "' - in '", or, "' column")
 
+
   OD[, c("or_id", "dest_id") := data.table::tstrsplit(get(or), pattern, fixed = TRUE)]
 
   if(or != "or_id")  OD[, c(or) := NULL]
 
+
   return(OD)
 
 }
-
-
-#' Perform check of arguments of main functions
-#'
-#' Checks if arguments provided with the main function are complete and correct
-#'
-#' @param OD data.table with origin-destination matrix
-#' @param or column in `OD` that contains ids of all the trip (origin and destination ids)
-#'
-#' @return none
-#'
-#' @importFrom data.table :=
-#'
-#' @noRd

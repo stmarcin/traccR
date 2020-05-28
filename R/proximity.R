@@ -84,6 +84,7 @@ proximity <- function(OD, or, ttime, # required
   # if destinations 'or' column contains trip ids instead of origin id
   # (e.g. in the form 'origin_id - destination_id') then it has to be split
   # to two columns, one for origin_id ('or') and second for destination_id ('dest')
+<<<<<<< HEAD
   # also - if column 'or' is equal to 'or' -> rename as 'or_id',
   # same for `dest` -> rename to  'dest_id'
   ifelse(
@@ -93,16 +94,29 @@ proximity <- function(OD, or, ttime, # required
       data.table::setnames(od_copy, dest, "dest_id")
       data.table::setnames(od_copy, or, "or_id")
     } )
+=======
+  if(dest == "")
+  {
+    od_copy <- split_trip_id(OD = od_copy, or = or, pattern = pattern)
+  }
+>>>>>>> bf28da29a3b74552256d0c6bda523c9b06bbeee7
 
   # select available destinations ----
   # OD may contain more destinations than it is needed
   # if destinations != "" join tables to select available destinations
   if(!missing(destinations))
   {
+<<<<<<< HEAD
     data.table::setkey(od_copy, dest_id)
     data.table::setkeyv(destinations, destinations_id)
 
     od_copy <- merge(od_copy, destinations[, ..destinations_id], by.x = "dest_id", by.y = destinations_id)
+=======
+    data.table::setkeyv(od_copy, dest)
+    data.table::setkeyv(destinations, destinations_id)
+
+    od_copy <- merge(od_copy, destinations[, ..destinations_id], by.x = dest, by.y = destinations_id)
+>>>>>>> bf28da29a3b74552256d0c6bda523c9b06bbeee7
     if(nrow(od_copy) == 0)
       stop(glue::glue("There is no matching records between 'OD' and 'destinations'.
                       Check if 'destinations_id' is defined correctly"))
@@ -115,22 +129,38 @@ proximity <- function(OD, or, ttime, # required
          {ifelse(zero == TRUE,
 
                  # zero-length excluded (TRUE) & origin = destination excluded (TRUE)
+<<<<<<< HEAD
                  od_copy <- od_copy[or_id != dest_id & c(ttime) != 0,
                                     .(proximity = min(c(ttime))), by = or_id],
 
                  # zero-length allowed (FALSE) & origin = destination excluded (TRUE)
                  od_copy <- od_copy[or_id != dest_id, .(proximity = min(c(ttime))), by = or_id]
+=======
+                 od_copy <- od_copy[get(or) != get(dest) & get(ttime) != 0,
+                                    .(proximity = min(get(ttime))), by = c(or)],
+
+                 # zero-length allowed (FALSE) & origin = destination excluded (TRUE)
+                 od_copy <- od_copy[get(or) != get(dest), .(proximity = min(get(ttime))), by = c(or)]
+>>>>>>> bf28da29a3b74552256d0c6bda523c9b06bbeee7
 
                  )},
 
          {ifelse(zero == TRUE,
 
                  # zero-length excluded (TRUE) & origin = destination allowed (FALSE)
+<<<<<<< HEAD
                  od_copy <- od_copy[or_id != dest_id,
                                     .(proximity = min(c(ttime))), by = or_id],
 
                  # zero-length allowed (FALSE) & origin = destination allowed (FALSE)
                  od_copy <- od_copy[, .(proximity = min(c(ttime))), by = or_id]
+=======
+                 od_copy <- od_copy[get(or) != get(dest),
+                                    .(proximity = min(get(ttime))), by = c(or)],
+
+                 # zero-length allowed (FALSE) & origin = destination allowed (FALSE)
+                 od_copy <- od_copy[, .(proximity = min(get(ttime))), by = c(or)]
+>>>>>>> bf28da29a3b74552256d0c6bda523c9b06bbeee7
          )}
   )
 
