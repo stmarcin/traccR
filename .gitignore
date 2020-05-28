@@ -40,5 +40,5 @@ vignettes/*.pdf
 
 # my files
 *.Rproj
-zzz_temporary/
+
 .Rproj.user
