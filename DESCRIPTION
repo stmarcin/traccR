@@ -1,18 +1,20 @@
 Package: traccR
-Title: What the Package Does (One Line, Title Case)
+Title: R package to calculate transport accessibility indicators
 Version: 0.0.0.9000
 Authors@R: 
-    person(given = "First",
-           family = "Last",
+    person(given = "Marcin",
+           family = "Stepniak",
            role = c("aut", "cre"),
-           email = "first.last@example.com",
-           comment = c(ORCID = "YOUR-ORCID-ID"))
-Description: What the package does (one paragraph).
-License: `use_mit_license()`, `use_gpl3_license()` or friends to
-    pick a license
+           email = "marcinstepniak@ucm.es",
+           comment = c(ORCID = "0000-0002-6489-5443"))
+Description: R package to calculate transport accessibility indicators offering high flexibility in accepted structure of 
+    origin-destinations matrixes (in particular, the location of origin and destinations id, 
+    selection of considered destinations) etc.
+License: GPL-3 + file LICENSE
 Imports: 
     data.table,
-    magrittr
+    magrittr,
+    utils
 Suggests: 
     spelling,
     testthat,

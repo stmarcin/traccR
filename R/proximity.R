@@ -8,9 +8,10 @@
 #' @param ttime column in `OD` that contains travel time or distance
 #' @param dest *optional* column in `OD` that contains ids of destinations.
 #' It is ommited , if or contains origin and destination ids.
-#' @param destinations *optional* ids of available destinations.
+#' @param destinations *optional* dataset of available destinations.
 #' If not specified, all  available destinatinos from `OD` dataset are used.
 #' Accepted data formats: tibble, data.table, data.frame or sf object.
+#' @param destinations_id *optional* column in destinatinos with ids of available destinations
 #' @param pattern *optional* a pattern used to split `name` into origin and destination column. Default: `" - "`
 #' @param or_dest a bolean argument. When `TRUE`, it excludes trips where origin has the same ID as destination.
 #' Default: TRUE
@@ -31,45 +32,18 @@ proximity <- function(OD, or, ttime, # required
                       destinations, destinations_id = "", # if selected destinations are in another table
                       or_dest = TRUE, zero = TRUE) # parameters for exclusion
 {
-  # verify if arguments are corrected ----
-  if(!is.data.frame(OD))
-    stop("'", OD, "' is not a valid object. '", OD, "' has to be a data.frame object")
-
-  if(nrow(OD) == 0)
-    stop("provided origin-destination matrix has no data")
-
-  if(!or %in% names(OD))
-    stop("column '", or, "' does not exist in the provided origin-destination matrix")
-
-  if(!ttime %in% names(OD))
-    stop("column '", ttime, "' does not exist in the provided origin-destination matrix")
-
-  if(dest != "" & !dest %in% names(OD))
-    stop("Provided column '", dest, "' does not exist in the provided origin-destination matrix")
-
-  if(dest == "" & sum(grepl(pattern = pattern, OD[[or]])) == 0 )
-    stop("Please check the pattern. The selected one - ", pattern, "' - does not split '", or, "' column")
-
-  if(!dest == "" & sum(grepl(pattern = pattern, OD[[or]])) == nrow(OD) )
-    stop("Not all records contain selected pattern - '", pattern, "' - in '", or, "' column")
-
+  # Tests of arguments. as they repeat in other functions, all tests are in utils.R
+  # NOTE: the sequence of checks is important
+  checks_base_args(OD = OD, or = or, ttime = ttime, 
+                      dest = dest, pattern = pattern,
+                      or_dest = or_dest, zero = zero)
+  
   if(!missing(destinations))
-  {
-    if(!is.data.frame(destinations))
-    stop(glue::glue("Provided 'destinations' is not a valid object.
-                    'destinations' has to be a data.frame object"))
+    checks_dest_args(destinations = destinations, destinations_id = destinations_id)
+  
+  checks_ttime_args(OD = OD, ttime = ttime)
 
-    if(destinations_id == "")
-      stop(glue::glue("If 'destinations' is specified, 'destinations_id' is required.
-                      Please provide 'destinations_id' as id column name"))
-  }
 
-  if(typeof(OD[[ttime]]) != "double")
-    stop("The type of '", ttime, "' column has to 'double'")
-
-  if(sum(is.na(OD[[ttime]])) > 0)
-      stop(glue::glue("'{ttime}' column contains 'NA' values.
-                    Please verify your data or remove NA by 'na.omit'"))
 
   # copy OD ----
   # transform OD to data.table. if it is already a data.table than make a copy
@@ -81,7 +55,7 @@ proximity <- function(OD, or, ttime, # required
   )
 
   # split 'or' ----
-  # if destinations 'or' column contains trip ids instead of origin id
+  # if 'or' column in 'OD' contains trip ids instead of origin id
   # (e.g. in the form 'origin_id - destination_id') then it has to be split
   # to two columns, one for origin_id ('or') and second for destination_id ('dest')
   # also - if column 'or' is equal to 'or' -> rename as 'or_id',
@@ -138,4 +112,4 @@ proximity <- function(OD, or, ttime, # required
 
 }
 
-
+utils::globalVariables(c("od", "dest_id", "..destinations_id", "or_id", "."))
