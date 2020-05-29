@@ -28,9 +28,11 @@ It is ommited , if or contains origin and destination ids.}
 
 \item{pattern}{\emph{optional} a pattern used to split \code{name} into origin and destination column. Default: \code{" - "}}
 
-\item{destinations}{\emph{optional} ids of available destinations.
+\item{destinations}{\emph{optional} dataset of available destinations.
 If not specified, all  available destinatinos from \code{OD} dataset are used.
 Accepted data formats: tibble, data.table, data.frame or sf object.}
+
+\item{destinations_id}{\emph{optional} column in destinatinos with ids of available destinations}
 
 \item{or_dest}{a bolean argument. When \code{TRUE}, it excludes trips where origin has the same ID as destination.
 Default: TRUE}

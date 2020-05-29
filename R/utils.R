@@ -5,11 +5,14 @@
 #'
 #' @param OD data.table with origin-destination matrix
 #' @param or column in `OD` that contains ids of all the trip (origin and destination ids)
+#' @param pattern a pattern used to split `name` into origin and destination column. Default: `" - "`
 #'
 #' @return modified data.table
 #'
 #' @importFrom data.table :=
 #'
+#' @keywords internal
+#' 
 #' @noRd
 split_trip_id <- function(OD, or, pattern = " - ")
 {
@@ -38,6 +41,9 @@ split_trip_id <- function(OD, or, pattern = " - ")
 
 
 #' Performs tests of arguments (universal ones)
+#' @keywords internal
+#' 
+#' @noRd
 checks_base_args <- function(OD, or, ttime, dest, pattern, or_dest, zero)
 {
   if(!is.data.frame(OD))

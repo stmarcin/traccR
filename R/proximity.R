@@ -8,9 +8,10 @@
 #' @param ttime column in `OD` that contains travel time or distance
 #' @param dest *optional* column in `OD` that contains ids of destinations.
 #' It is ommited , if or contains origin and destination ids.
-#' @param destinations *optional* ids of available destinations.
+#' @param destinations *optional* dataset of available destinations.
 #' If not specified, all  available destinatinos from `OD` dataset are used.
 #' Accepted data formats: tibble, data.table, data.frame or sf object.
+#' @param destinations_id *optional* column in destinatinos with ids of available destinations
 #' @param pattern *optional* a pattern used to split `name` into origin and destination column. Default: `" - "`
 #' @param or_dest a bolean argument. When `TRUE`, it excludes trips where origin has the same ID as destination.
 #' Default: TRUE
@@ -111,4 +112,4 @@ proximity <- function(OD, or, ttime, # required
 
 }
 
-
+utils::globalVariables(c("od", "dest_id", "..destinations_id", "or_id", "."))
