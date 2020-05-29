@@ -107,11 +107,3 @@ test_that("no empty join with destinations", {
   expect_equal(nrow(od_copy), 2)
 
 })
-
-
-# test_that("test matching of destinations dataset", {
-#
-#
-#
-#
-# })

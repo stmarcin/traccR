@@ -54,7 +54,7 @@ proximity <- function(OD, or, ttime, # required
   )
 
   # split 'or' ----
-  # if destinations 'or' column contains trip ids instead of origin id
+  # if 'or' column in 'OD' contains trip ids instead of origin id
   # (e.g. in the form 'origin_id - destination_id') then it has to be split
   # to two columns, one for origin_id ('or') and second for destination_id ('dest')
   # also - if column 'or' is equal to 'or' -> rename as 'or_id',
