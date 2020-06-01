@@ -1,3 +1,4 @@
+library(testthat)
 library(data.table)
 set.seed(123)
 OD <- data.table::data.table(

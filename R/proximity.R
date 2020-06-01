@@ -34,13 +34,13 @@ proximity <- function(OD, or, ttime, # required
 {
   # Tests of arguments. as they repeat in other functions, all tests are in utils.R
   # NOTE: the sequence of checks is important
-  checks_base_args(OD = OD, or = or, ttime = ttime, 
+  checks_base_args(OD = OD, or = or, ttime = ttime,
                       dest = dest, pattern = pattern,
                       or_dest = or_dest, zero = zero)
-  
+
   if(!missing(destinations))
     checks_dest_args(destinations = destinations, destinations_id = destinations_id)
-  
+
   checks_ttime_args(OD = OD, ttime = ttime)
 
 
@@ -100,7 +100,7 @@ proximity <- function(OD, or, ttime, # required
          {ifelse(zero == TRUE,
 
                  # zero-length excluded (TRUE) & origin = destination allowed (FALSE)
-                 od_copy <- od_copy[or_id != dest_id,
+                 od_copy <- od_copy[c(ttime) != 0,
                                     .(proximity = min(c(ttime))), by = or_id],
 
                  # zero-length allowed (FALSE) & origin = destination allowed (FALSE)
