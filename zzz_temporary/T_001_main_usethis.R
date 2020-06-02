@@ -27,3 +27,6 @@ usethis::use_gpl3_license()
 edit_r_profile()
 options(usethis.full_name = "Marcin Stepniak")
 
+usethis::use_data(rej_ursynow, overwrite = TRUE)
+usethis::use_data(od_data)
+
