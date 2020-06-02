@@ -1,4 +1,4 @@
 library(testthat)
-library(traccR)
+library(traccr)
 
-test_check("traccR")
+test_check("traccr")
