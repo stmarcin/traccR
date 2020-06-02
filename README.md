@@ -7,10 +7,19 @@
 
 <!-- badges: end -->
 
+***It is a temporary description. `{traccr}` is under development, with
+limited functionality***
+
 The `{traccr}` is an R package to calculate (transport) accessibility
-from origin-destination matrixes. Its advantage is that it allows for a
+from origin-destination matrices. Its advantage is that it allows for a
 flexibility in terms of structure of the source data: OD matrices as
-well as data on destination attractiveness. The package permits compute
+well as the data on destination attractiveness.  
+It uses [`{data.table}`](https://github.com/Rdatatable/data.table) for
+efficient computations and it is created based on several tailored
+scripts I used for working with ArcGIS Network Analyst outputs, but it
+should work with
+e.g. [OpenTripPlanner](https://github.com/ropensci/opentripplanner), or
+any other origin-destination matrices as well.
 
 ## Installation
 
@@ -21,4 +30,64 @@ if(!"devtools" %in% rownames(installed.packages()))
 devtools::install_github("stmarcin/traccr")
 ```
 
-## Description
+## Input flexibility
+
+The main advantage of the `{traccr}` is that it permits to compute basic
+accessibility indicators while accepting different types of file
+structure and the way the data is stored.
+
+#### origin-destination file structure
+
+In the OD file, the ids of origins and destinations can be stored in two
+different columns or in one column coded e.g. as `origin_id -
+destination_id`. In case of the latter, `{traccr}` would take care of
+splitting the data in the background. User can define pattern used for
+splitting (in a given example it would be `-` which is also a default
+option).
+
+#### selection of destinations
+
+As calculation of OD matrices is usually the most time-consuming process
+in any accessibility analysis, it makes sense to prepare even larger
+ones to cover all **possible** links and then to select only required
+ones in the analysis. This prevents from re-calculating OD matrices and
+I applied it, e.g. in the
+[GIService](https://marcinstepniak.eu/project/giservice/) project which
+focuses on accessibility to public services in Poland.  
+In this case, the OD matrix is filtered based on the data set of
+destinations stored in a separate file. `{traccr}` would conduct an
+*inner join* to filter out all irrelevant trips from OD matrix and
+provide results for desired set of destinations.  
+*see this vignette for details* ***(to be prepared)***
+
+#### matching data on attractiveness of destinations
+
+Accessibility indicators usually consider quantified attractiveness of
+destinations (e.g. number of jobs in the area, number of medical doctors
+etc.) and that data is usually stored in a separate file. As in case of
+selection of destinations, `{traccr}` merges OD matrix with destinations
+data and compute desired accessibility indicator (cumulative
+opportunities, potential accessibility). See vignettes for details
+***(to be prepared)***.
+
+#### internal travel time
+
+***(to be prepared)***
+
+## Main Functions
+
+***(to be prepared)***
+
+#### Proximity
+
+Proximity, also known as *distance* or *travel time to the nearest
+provider*
+
+#### Cumulative opportunities
+
+Cumulative opportunities accessibility measure, also known as
+*isochronic measure*
+
+#### Potential accessibility
+
+#### Accessibility measure with competition
