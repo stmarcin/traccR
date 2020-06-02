@@ -8,10 +8,10 @@ proximity(
   OD,
   or,
   ttime,
-  dest = "",
+  dest,
   pattern = " - ",
   destinations,
-  destinations_id = "",
+  destinations_id,
   or_dest = TRUE,
   zero = TRUE
 )
@@ -24,20 +24,20 @@ proximity(
 \item{ttime}{column in \code{OD} that contains travel time or distance}
 
 \item{dest}{\emph{optional} column in \code{OD} that contains ids of destinations.
-It is ommited , if or contains origin and destination ids.}
+It is omitted, if column \code{or} contains origin and destination ids.}
 
 \item{pattern}{\emph{optional} a pattern used to split \code{name} into origin and destination column. Default: \code{" - "}}
 
-\item{destinations}{\emph{optional} dataset of available destinations.
-If not specified, all  available destinatinos from \code{OD} dataset are used.
+\item{destinations}{\emph{optional} data set of available destinations.
+If not specified, all  available destinations from \code{OD} data  set are used.
 Accepted data formats: tibble, data.table, data.frame or sf object.}
 
-\item{destinations_id}{\emph{optional} column in destinatinos with ids of available destinations}
+\item{destinations_id}{\emph{optional} column in destinations with ids of available destinations}
 
-\item{or_dest}{a bolean argument. When \code{TRUE}, it excludes trips where origin has the same ID as destination.
+\item{or_dest}{a  boolean argument. When \code{TRUE}, it excludes trips where origin has the same ID as destination.
 Default: TRUE}
 
-\item{zero}{a bolean argument. When \code{TRUE} it excludes trips of zero length. Default: \code{TRUE}}
+\item{zero}{a  boolean argument. When \code{TRUE} it excludes trips of zero length. Default: \code{TRUE}}
 }
 \value{
 a data.table object with distance / travel time to the nearest destination
@@ -48,7 +48,7 @@ to calculate proximity indicator
 }
 \details{
 \code{proximity()} calculates (selects) travel time (or distance)
-to the closests destination out of all available ones.
+to the closest destination out of all available ones.
 It can select any destination of all available  within OD dataset
 or to destination available in separate dataset (using join).
 Additional parameters enable to exclude OD pairs where origin and destination

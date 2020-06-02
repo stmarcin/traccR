@@ -7,18 +7,18 @@
 #' @param or column in `OD` that contains ids of origins or both, origin and destination ids
 #' @param ttime column in `OD` that contains travel time or distance
 #' @param dest *optional* column in `OD` that contains ids of destinations.
-#' It is ommited , if or contains origin and destination ids.
-#' @param destinations *optional* dataset of available destinations.
-#' If not specified, all  available destinatinos from `OD` dataset are used.
+#' It is omitted, if column `or` contains origin and destination ids.
+#' @param destinations *optional* data set of available destinations.
+#' If not specified, all  available destinations from `OD` data  set are used.
 #' Accepted data formats: tibble, data.table, data.frame or sf object.
-#' @param destinations_id *optional* column in destinatinos with ids of available destinations
+#' @param destinations_id *optional* column in destinations with ids of available destinations
 #' @param pattern *optional* a pattern used to split `name` into origin and destination column. Default: `" - "`
-#' @param or_dest a bolean argument. When `TRUE`, it excludes trips where origin has the same ID as destination.
+#' @param or_dest a  boolean argument. When `TRUE`, it excludes trips where origin has the same ID as destination.
 #' Default: TRUE
-#' @param zero a bolean argument. When `TRUE` it excludes trips of zero length. Default: `TRUE`
+#' @param zero a  boolean argument. When `TRUE` it excludes trips of zero length. Default: `TRUE`
 #'
 #' @details `proximity()` calculates (selects) travel time (or distance)
-#' to the closests destination out of all available ones.
+#' to the closest destination out of all available ones.
 #' It can select any destination of all available  within OD dataset
 #' or to destination available in separate dataset (using join).
 #' Additional parameters enable to exclude OD pairs where origin and destination
@@ -28,8 +28,8 @@
 #'
 #' @export
 proximity <- function(OD, or, ttime, # required
-                      dest = "", pattern = " - ", # destinations in separate column or in or as trip ids
-                      destinations, destinations_id = "", # if selected destinations are in another table
+                      dest, pattern = " - ", # destinations in separate column or in or as trip ids
+                      destinations, destinations_id, # if selected destinations are in another table
                       or_dest = TRUE, zero = TRUE) # parameters for exclusion
 {
   # Tests of arguments. as they repeat in other functions, all tests are in utils.R
@@ -61,7 +61,7 @@ proximity <- function(OD, or, ttime, # required
   # also - if column 'or' is equal to 'or' -> rename as 'or_id',
   # same for `dest` -> rename to  'dest_id'
   ifelse(
-    dest == "",
+    missing(dest),
     od_copy <- split_trip_id(OD = od_copy, or = or, pattern = pattern),
     {
       data.table::setnames(od_copy, dest, "dest_id")

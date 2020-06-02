@@ -20,7 +20,8 @@ Suggests:
     testthat,
     glue,
     knitr,
-    rmarkdown
+    rmarkdown,
+    qpdf
 Encoding: UTF-8
 Language: en-US
 LazyData: true

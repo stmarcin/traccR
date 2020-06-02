@@ -58,13 +58,14 @@ checks_base_args <- function(OD, or, ttime, dest, pattern, or_dest, zero)
   if(!ttime %in% names(OD))
     stop("column '", ttime, "' does not exist in the provided origin-destination matrix")
 
-  if(dest != "" & !dest %in% names(OD))
-    stop("Provided column '", dest, "' does not exist in the provided origin-destination matrix")
+  if(!missing(dest))
+    if(!dest %in% names(OD))
+      stop("Provided column '", dest, "' does not exist in the provided origin-destination matrix")
 
-  if(dest == "" & sum(grepl(pattern = pattern, OD[[or]])) == 0 )
+  if(missing(dest) & sum(grepl(pattern = pattern, OD[[or]])) == 0 )
     stop("Please check the pattern. The selected one - ", pattern, "' - does not split '", or, "' column")
 
-  if(!dest == "" & sum(grepl(pattern = pattern, OD[[or]])) == nrow(OD) )
+  if(!missing(dest) & sum(grepl(pattern = pattern, OD[[or]])) == nrow(OD) )
     stop("Not all records contain selected pattern - '", pattern, "' - in '", or, "' column")
   
   if(!typeof(or_dest) == "logical")
@@ -93,7 +94,7 @@ checks_dest_args <- function(destinations = destinations, destinations_id = dest
     stop(glue::glue("Provided 'destinations' is not a valid object.
       'destinations' has to be a data.frame object") )
   
-  if (destinations_id == "")
+  if (missing(destinations_id))
     stop(glue::glue("If 'destinations' is specified, 'destinations_id' is required.
       Please provide 'destinations_id' as id column name") )
 }
